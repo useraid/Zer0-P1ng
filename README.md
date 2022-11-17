@@ -1,2 +1,2 @@
 # Zer0-P1ng
-Team for Hack-o-wasp
+My premier team for CTFs and Hackathons.
