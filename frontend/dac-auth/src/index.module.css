@@ -7,10 +7,18 @@
 
 body {
   margin: 0;
-  --lightcolor: bisque;
-  --darkcolor: brown;
-  --darkhovercolor: rgb(114, 8, 8);
+  --lightcolor: black;
+  --darkcolor: rgb(184, 51, 51);
+  --darkhovercolor: rgb(15, 133, 33);
   background-color: var(--lightcolor);
   font-family: 'Open Sans', sans-serif;
 }
 
+.content{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 80%;
+}
