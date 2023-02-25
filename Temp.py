@@ -1,49 +1,34 @@
-from flask import Flask , jsonify
+from flask import Flask
 import requests
 import math
+
+# Geolocation based on IP
+
 r = requests.get('https://get.geojs.io/')
 ip_request = requests.get('https://get.geojs.io/v1/ip.json')
 ip = ip_request.json()['ip']
-print(ip)
 url = 'https://get.geojs.io/v1/ip/geo/'+ip+'.json'
 geo_req = requests.get(url)
 geo_data = geo_req.json()
 longitude_fetch = geo_data.get('longitude')
 latitude_fetch = geo_data.get('latitude')
 city_fetch = geo_data.get('city')
+
+# Flask Init
+
 app = Flask(__name__)
+
 @app.route('/')
 def hello_world():
-    # geo_lat = float(input("Enter you lattitude: "))
-    # geo_lon = float(input("Enter your longitude: "))
-    # r = requests.get('https://get.geojs.io/')
-    # ip_request = requests.get('https://get.geojs.io/v1/ip.json')
-    # ip = ip_request.json()['ip']
-    # print(ip)
-    # url = 'https://get.geojs.io/v1/ip/geo/'+ip+'.json'
-    # geo_req = requests.get(url)
-    # geo_data = geo_req.json()
-    # longitude_fetch = geo_data.get('longitude')
-    # latitude_fetch = geo_data.get('latitude')
-    # city_fetch = geo_data.get('city')
     print(longitude_fetch)
     print(latitude_fetch)
     print(city_fetch)
-@app.route('/sum/<int:n>')
-def sum(n):
-    result = {
-        "Number": n,
-        "Prime": "no",
-        "Mulitply": n*2
-    }
-    return jsonify(result)
+
 @app.route('/DAC/<float:lat>&<float:lon>')
 def func(lat,lon):
     DAC=[]
-    # lat=30.3554#float(input("Latitude upto 6 decimals")
-    # lon=76.3694#float(input("Longitude upto 6 decimals"))
     if lat>90 or lat<-90 or lon>180 or lon<-180:
-        print("The given coordinates are incorrect")
+        pass
     else:
         lat1=int(lat)
         lon1=int(lon)
@@ -98,6 +83,5 @@ def func(lat,lon):
         
     dac=LTS(DAC)
 
-    print(DAC)
     list = {"dac":dac}
     return (list)
