@@ -1,49 +1,102 @@
+import { useRef, useState } from 'react';
+
+import Button from './Button';
+import Card from './Card';
 import styles from './Signup.module.css';
 
 const Signup = (props) => {
+
+    const nameRef = useRef();
+    const cityRef = useRef();
+    const buildingRef = useRef();
+    const localityRef = useRef();
+
+    const [nameError, setNameError] = useState('');
+    const [cityError, setCityError] = useState('');
+    const [buildingError, setBuildingError] = useState('');
+    const [localityError, setLocalityError] = useState('');
 
     const loginHandler = () => {
         console.log('Going to login page');
         props.onNavigateLogin();
     }
 
-    const locateHandler = () => {
-        console.log('Working');
+    const locateHandler = (e) => {
+        e.preventDefault();
+        console.log('Generating Digital Address Code:');
+
+        setBuildingError("");
+        setCityError("");
+        setLocalityError("");
+        setNameError("");
+
+        const nameData = nameRef.current.value;
+        const cityData = cityRef.current.value;
+        const localityData = localityRef.current.value;
+        const buildingData = buildingRef.current.value;
+
+
+        if (nameData.trim().length === 0) {
+            setNameError("Please enter your name.");
+        }
+        if (cityData.trim().length === 0) {
+            setCityError("Please enter a valid city.");
+        }
+        if (localityData.trim().length === 0) {
+            setLocalityError("Please enter a valid locality.");
+        }
+        if (buildingData.trim().length === 0) {
+            setBuildingError("Please enter a valid building.");
+        }
+        if (nameData === "" || buildingData === "" || cityData === "" || localityData === ""){
+            return;
+        }
+        const user = {
+            name: nameData,
+            add1: cityData,
+            add2: localityData,
+            add3: buildingData
+        }
+        console.log(user);
     }
-    return (<div className={styles.form}>
-        <form>
+
+    return (<Card>
+        <form onSubmit={locateHandler}>
             <h2> Signup </h2>
             <div className={styles.fields}>
                 <div className={styles.field}>
                     <label htmlFor='name'> Name: </label>
-                    <input type="text" />
+                    <input type="text" ref = {nameRef}/>
+                    {nameError.length !== 0 && <p className={styles['error-text']}> {nameError}</p>}
                 </div>
                 <div className={styles.field}>
                     <label htmlFor='City'> City:  </label>
-                    <input type="text" />
+                    <input type="text" ref = {cityRef}/>
+                    {cityError.length !== 0 && <p className={styles['error-text']}> {cityError}</p>}
                 </div>
                 <div className={styles.field}>
                     <label htmlFor='Locality'> Locality:  </label>
-                    <input type="text" />
+                    <input type="text" ref = {localityRef}/>
+                    {localityError.length !== 0 && <p className={styles['error-text']}> {localityError}</p>}
                 </div>
                 <div className={styles.field}>
                     <label htmlFor='Building'> Building:  </label>
-                    <input type="text" />
+                    <input type="text" ref = {buildingRef}/>
+                    {buildingError.length !== 0 && <p className={styles['error-text']}> {buildingError}</p>}
                 </div>
             </div>
             <div className={styles.actions}>
                 <div>
                     <h3> Please allow geolocation access:</h3>
-                    <button onClick={locateHandler}>Generate DAC</button>
+                    <Button type="submit">Generate DAC</Button>
                 </div>
-                <button> Signup </button>
                 <div>
                     <h3> Go back to login page</h3>
-                    <button onClick={loginHandler}> Login</button>
+                    <Button type = "button" onClick={loginHandler}> Login</Button>
                 </div>
             </div>
         </form>
-    </div>);
+    </Card>);
 }
 
 export default Signup;

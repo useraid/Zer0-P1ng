@@ -2,12 +2,14 @@
 
 *{
   box-sizing: border-box;
+  text-align: center;
 }
 
 body {
   margin: 0;
   --lightcolor: bisque;
   --darkcolor: brown;
+  --darkhovercolor: rgb(114, 8, 8);
   background-color: var(--lightcolor);
   font-family: 'Open Sans', sans-serif;
 }

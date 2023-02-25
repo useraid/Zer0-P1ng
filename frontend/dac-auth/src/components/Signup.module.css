@@ -1,11 +1,29 @@
 .form{
     margin: 1rem auto;
     display: flex;
+    width: 100%;
+}
+
+.form h2{
+
+}
+.fields{
+    display: flex;
+    flex-direction: column;
 }
 
 .field{
     font-size: large;
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
+.field input{
+    font-size: larger;
+}
+
+.error-text{
+    color: red;
+    font-style: bold;
+}
