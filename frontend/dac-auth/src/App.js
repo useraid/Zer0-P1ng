@@ -5,7 +5,7 @@ import Signup from "./components/Signup";
 
 const App = () => {
 
-  const [isOnSignup, setIsOnSignUp] = useState(false);
+  const [isOnSignup, setIsOnSignUp] = useState(true);
 
   const navigateSignupHandler = () => {
     setIsOnSignUp(true);
@@ -14,6 +14,7 @@ const App = () => {
   const navigateLoginHandler = () => {
     setIsOnSignUp(false);
   }
+
   
   return ( <Fragment>
     <Header />

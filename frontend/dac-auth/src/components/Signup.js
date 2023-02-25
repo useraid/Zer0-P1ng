@@ -35,7 +35,6 @@ const Signup = (props) => {
         const localityData = localityRef.current.value;
         const buildingData = buildingRef.current.value;
 
-
         if (nameData.trim().length === 0) {
             setNameError("Please enter your name.");
         }
@@ -48,16 +47,50 @@ const Signup = (props) => {
         if (buildingData.trim().length === 0) {
             setBuildingError("Please enter a valid building.");
         }
-        if (nameData === "" || buildingData === "" || cityData === "" || localityData === ""){
+        if (nameData === "" || buildingData === "" || cityData === "" || localityData === "") {
             return;
         }
         const user = {
             name: nameData,
             add1: cityData,
             add2: localityData,
-            add3: buildingData
+            add3: buildingData,
         }
         console.log(user);
+
+        let coordinates = {};
+
+        navigator.geolocation.getCurrentPosition(position => {
+            coordinates = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            };
+            const setLocation = async () => {
+                try {
+                    const response = await fetch('https://dummy-api-c9a0e-default-rtdb.firebaseio.com/location.json', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            ...user
+                        }),
+                        headers:
+                        {
+                            'Content-Type': 'applications/json'
+                        }
+                    })
+                    if (!response.ok) {
+                        throw new Error('Could not post');
+                    }
+                    console.log('Fetched');
+                } catch(err)
+                {
+                    console.log(err.message);
+                }
+            }
+                    setLocation();
+                
+        })
     }
 
     return (<Card>
@@ -66,22 +99,22 @@ const Signup = (props) => {
             <div className={styles.fields}>
                 <div className={styles.field}>
                     <label htmlFor='name'> Name: </label>
-                    <input type="text" ref = {nameRef}/>
+                    <input type="text" ref={nameRef} />
                     {nameError.length !== 0 && <p className={styles['error-text']}> {nameError}</p>}
                 </div>
                 <div className={styles.field}>
                     <label htmlFor='City'> City:  </label>
-                    <input type="text" ref = {cityRef}/>
+                    <input type="text" ref={cityRef} />
                     {cityError.length !== 0 && <p className={styles['error-text']}> {cityError}</p>}
                 </div>
                 <div className={styles.field}>
                     <label htmlFor='Locality'> Locality:  </label>
-                    <input type="text" ref = {localityRef}/>
+                    <input type="text" ref={localityRef} />
                     {localityError.length !== 0 && <p className={styles['error-text']}> {localityError}</p>}
                 </div>
                 <div className={styles.field}>
                     <label htmlFor='Building'> Building:  </label>
-                    <input type="text" ref = {buildingRef}/>
+                    <input type="text" ref={buildingRef} />
                     {buildingError.length !== 0 && <p className={styles['error-text']}> {buildingError}</p>}
                 </div>
             </div>
@@ -91,8 +124,8 @@ const Signup = (props) => {
                     <Button type="submit">Generate DAC</Button>
                 </div>
                 <div>
-                    <h3> Go back to login page</h3>
-                    <Button type = "button" onClick={loginHandler}> Login</Button>
+                    <h3> Already signed up? Log in now. </h3>
+                    <Button type="button" onClick={loginHandler}> Login</Button>
                 </div>
             </div>
         </form>
