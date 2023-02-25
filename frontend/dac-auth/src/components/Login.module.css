@@ -1,0 +1,10 @@
+.form{
+    margin: 1rem auto;
+    display: flex;
+}
+
+.field{
+    font-size: large;
+    display: flex;
+    flex-direction: column;
+}
