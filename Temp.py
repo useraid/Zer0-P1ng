@@ -1,21 +1,31 @@
 from flask import Flask , jsonify
 import requests
 import math
+r = requests.get('https://get.geojs.io/')
+ip_request = requests.get('https://get.geojs.io/v1/ip.json')
+ip = ip_request.json()['ip']
+print(ip)
+url = 'https://get.geojs.io/v1/ip/geo/'+ip+'.json'
+geo_req = requests.get(url)
+geo_data = geo_req.json()
+longitude_fetch = geo_data.get('longitude')
+latitude_fetch = geo_data.get('latitude')
+city_fetch = geo_data.get('city')
 app = Flask(__name__)
 @app.route('/')
 def hello_world():
     # geo_lat = float(input("Enter you lattitude: "))
     # geo_lon = float(input("Enter your longitude: "))
-    r = requests.get('https://get.geojs.io/')
-    ip_request = requests.get('https://get.geojs.io/v1/ip.json')
-    ip = ip_request.json()['ip']
-    print(ip)
-    url = 'https://get.geojs.io/v1/ip/geo/'+ip+'.json'
-    geo_req = requests.get(url)
-    geo_data = geo_req.json()
-    longitude_fetch = geo_data.get('longitude')
-    latitude_fetch = geo_data.get('latitude')
-    city_fetch = geo_data.get('city')
+    # r = requests.get('https://get.geojs.io/')
+    # ip_request = requests.get('https://get.geojs.io/v1/ip.json')
+    # ip = ip_request.json()['ip']
+    # print(ip)
+    # url = 'https://get.geojs.io/v1/ip/geo/'+ip+'.json'
+    # geo_req = requests.get(url)
+    # geo_data = geo_req.json()
+    # longitude_fetch = geo_data.get('longitude')
+    # latitude_fetch = geo_data.get('latitude')
+    # city_fetch = geo_data.get('city')
     print(longitude_fetch)
     print(latitude_fetch)
     print(city_fetch)
@@ -27,12 +37,11 @@ def sum(n):
         "Mulitply": n*2
     }
     return jsonify(result)
-@app.route('/DAC')
-def func(latitude,longitude):
+@app.route('/DAC/<float:lat>&<float:lon>')
+def func(lat,lon):
     DAC=[]
-    lat=30.3554#float(input("Latitude upto 6 decimals")
-    lon=76.3694#float(input("Longitude upto 6 decimals"))
-
+    # lat=30.3554#float(input("Latitude upto 6 decimals")
+    # lon=76.3694#float(input("Longitude upto 6 decimals"))
     if lat>90 or lat<-90 or lon>180 or lon<-180:
         print("The given coordinates are incorrect")
     else:
@@ -88,7 +97,7 @@ def func(latitude,longitude):
         return str1
         
     dac=LTS(DAC)
-        
+
     print(DAC)
     list = {"dac":dac}
     return (list)
