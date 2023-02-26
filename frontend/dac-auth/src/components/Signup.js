@@ -67,7 +67,7 @@ const Signup = (props) => {
             };
             const setLocation = async () => {
                 try {
-                    const response = await fetch('https://dummy-api-c9a0e-default-rtdb.firebaseio.com/location.json', {
+                    const response = await fetch('http://127.0.0.1:5000/', {
                         method: 'POST',
                         body: JSON.stringify({
                             latitude: position.coords.latitude,
