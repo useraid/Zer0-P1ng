@@ -1,6 +1,10 @@
 from flask import Flask
 import requests
 import math
+import pyqrcode
+import png
+from pyqrcode import QRCode
+
 
 # Geolocation based on IP
 
@@ -82,6 +86,9 @@ def func(lat,lon):
         return str1
         
     dac=LTS(DAC)
+    s = dac
+    url = pyqrcode.create(s)
+    url.png('{}.png'.format(s), scale = 6)
 
     list = {"dac":dac}
     return (list)
